@@ -30,12 +30,13 @@
         </router-link>
       </template></Column
     >
+
     <Column
       v-for="field in fields"
-      :key="field.field"
-      :field="field.field"
+      :key="field?.field"
+      :field="field?.field"
       class="p-4 sm:p-6"
-      :header="field.header"
+      :header="field?.header"
     >
     </Column>
     <Column header="Rating" class="px-4 lg:px-8">
@@ -53,7 +54,7 @@
           outlined
           rounded
           class="mr-4"
-          @click="editProduct(slotProps.data)"
+          @click="editProduct()"
         />
         <ProductDialog
           :modify="true"
@@ -79,7 +80,7 @@
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import { computed, PropType, ref } from "vue";
-import Product from "../typing/index.ts";
+import { Product } from "../../typing/index.ts";
 import { RouterLink } from "vue-router";
 import ProductDialog from "../Product/ProductDialog.vue";
 import { useProductsStore } from "../../stores/products.ts";
@@ -121,15 +122,19 @@ const removeProduct = async (id: number) => {
       });
     }
   } catch (err) {
-    throw new err();
+    console.log(err);
   }
 };
+interface IField {
+  field?: string;
+  header?: string;
+}
 
 const fields = computed(() => {
-  let fieldsMap = [];
+  let fieldsMap: IField[] | undefined = [];
   let excludedFields = ["id", "image", "rating", "title"];
   if (props.products.length > 0) {
-    fieldsMap = Object.keys(props.products[0])
+    let data: any = Object.keys(props.products[0])
       .filter((el) => {
         return !excludedFields.includes(el);
       })
@@ -141,6 +146,7 @@ const fields = computed(() => {
           };
         }
       });
+    fieldsMap = data;
   }
   return fieldsMap;
 });

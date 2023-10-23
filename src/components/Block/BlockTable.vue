@@ -33,7 +33,7 @@
         />
       </template>
     </ToolbarComponent>
-    <BaseDataTable :loader="loading" :products="products" />
+    <BaseDataTable :loader="loading as boolean" :products="products" />
     <div class="flex justify-end w-full mt-10 h-fit">
       <div class="w-fit">
         <DropdownComponent
@@ -53,8 +53,8 @@ import ProductDialog from "../Product/ProductDialog.vue";
 import { storeToRefs } from "pinia";
 import { ref, watch } from "vue";
 
-const selectedLimit = ref("5");
-const limits = ref(["5", "10", "20", "50"]);
+const selectedLimit = ref(5);
+const limits = ref([5, 10, 20, 50]);
 const store = useProductsStore();
 const { loading, products } = storeToRefs(store);
 const { fetchProducts, searchProducts } = store;
@@ -65,17 +65,17 @@ const sortProducts = ref("desc");
 
 watch(selectedLimit, async (newVal) => {
   try {
-    fetchProducts(newVal, sortProducts.value);
+    await fetchProducts(Number(newVal), sortProducts.value);
   } catch (err) {
-    throw new err();
+    throw new Error("Error");
   }
 });
 
 watch(sortProducts, async (newVal) => {
   try {
-    fetchProducts(Number(selectedLimit.value), newVal);
+    await fetchProducts(selectedLimit.value, newVal);
   } catch (err) {
-    throw new err();
+    throw new Error("Error");
   }
 });
 

@@ -1,5 +1,5 @@
 <template>
-  <main class="flex w-screen min-h-screen bg-[#101827]">
+  <main class="flex w-screen min-h-screen bg-site">
     <TheSidebar />
     <router-view />
   </main>

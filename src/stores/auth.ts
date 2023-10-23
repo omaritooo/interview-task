@@ -3,9 +3,13 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 export const useAuthStore = defineStore("auth", () => {
   const router = useRouter();
-  const isLogged = ref(localStorage.getItem("logged") || false);
+  const isLogged = ref<boolean | null>(
+    localStorage.getItem("logged")
+      ? JSON.parse(localStorage.getItem("logged") as string)
+      : false
+  );
 
-  const loginValidation = (payload) => {
+  const loginValidation = (payload: { username: string; password: string }) => {
     if (payload.username !== "testuser1") {
       return "Incorrect username";
     }
@@ -13,7 +17,7 @@ export const useAuthStore = defineStore("auth", () => {
       return "Incorrect password";
     }
     isLogged.value = true;
-    localStorage.setItem("logged", true);
+    localStorage.setItem("logged", "true");
     router.push("/");
   };
   const logout = () => {

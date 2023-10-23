@@ -42,4 +42,4 @@ const productSchema = z.object({
 
 type productSchemaType = z.infer<typeof productSchema>;
 
-export { productSchema, productSchemaType };
+export { productSchema, type productSchemaType };

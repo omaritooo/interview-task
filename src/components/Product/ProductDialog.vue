@@ -1,12 +1,12 @@
 <template>
   <Dialog
     :modelValue:visible="modelValue"
-    @update:modelValue="(newValue) => $emit('update:modelValue', newValue)"
+    @update:modelValue="(newValue: any) => $emit('update:modelValue', newValue)"
     header="Header"
     :breakpoints="{ '960px': '75vw', '641px': '100vw' }"
   >
     <template #closeicon>
-      <ButtonComponent @click="visible = false" icon="pi pi-times" />
+      <ButtonComponent icon="pi pi-times" />
     </template>
     <form class="flex flex-col w-full px-6 gap-y-4">
       <BaseInput
@@ -56,39 +56,41 @@
 </template>
 <script setup lang="ts">
 import Dialog from "primevue/dialog";
-import { toRefs, withDefaults, ref } from "vue";
-import Product from "../../typing/index.ts";
+import { toRefs, ref, PropType } from "vue";
+import { Product } from "../../typing/index.ts";
 import { z } from "zod";
 import { useProductsStore } from "../../stores/products.ts";
 import { productSchema, productSchemaType } from "./productSchema.ts";
 import { useToast } from "primevue/usetoast";
-
-interface IProps {
-  product?: Product;
-  modelValue?: Boolean;
-  modify?: Boolean;
-}
 
 const { addProduct, updateProduct } = useProductsStore();
 const toast = useToast();
 
 const errors = ref<z.ZodFormattedError<productSchemaType> | null>(null);
 
-const props = withDefaults(defineProps<IProps>(), {
-  modelValue: false,
-  product: () => ({
-    title: "",
-    description: "",
-    category: "",
-    price: 0,
-    image: "",
-    id: 0,
-    rating: () => ({
-      rate: 0,
-      count: 0,
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
+  modify: {
+    type: Boolean,
+    default: false,
+  },
+  product: {
+    type: Object as PropType<Product>,
+    default: () => ({
+      title: "",
+      description: "",
+      category: "",
+      price: 0,
+      image: "",
+      rating: () => ({
+        rate: 0,
+        count: 0,
+      }),
     }),
-  }),
-  modify: false,
+  },
 });
 
 const newProduct = async () => {
@@ -127,7 +129,7 @@ const newProduct = async () => {
       }
     }
   } catch (err) {
-    throw new err();
+    throw new Error("Error");
   }
 };
 
@@ -150,7 +152,10 @@ const modifyProduct = async () => {
         life: 3000,
       });
     } else {
-      const response = await updateProduct(product.value.id, filteredProduct);
+      const response = await updateProduct(
+        product.value.id as number,
+        filteredProduct
+      );
       if (response) {
         toast.add({
           severity: "success",
@@ -167,10 +172,10 @@ const modifyProduct = async () => {
       }
     }
   } catch (err) {
-    throw new err();
+    throw new Error("Error");
   }
 };
 
-const { visible, product } = toRefs(props);
+const { product } = toRefs(props);
 defineEmits(["update:modelValue"]);
 </script>

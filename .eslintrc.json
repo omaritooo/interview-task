@@ -16,7 +16,7 @@
     // sourceType: 'module',
   },
   "rules": {
-    "vue/attribute-hyphenation": "ignore"
+    "vue/attribute-hyphenation": 0
     // override/add rules settings here, such as:
     // 'vue/no-unused-vars': 'error'
   }

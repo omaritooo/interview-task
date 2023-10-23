@@ -1,6 +1,7 @@
-import { createApp } from "vue";
+import { createApp, Directive } from "vue";
 import "./style.css";
 import App from "./App.vue";
+
 import { createPinia } from "pinia";
 import PrimeVue from "primevue/config";
 import Tailwind from "primevue/passthrough/tailwind";
@@ -19,15 +20,16 @@ const pinia = createPinia();
 
 const app = createApp(App);
 app.use(pinia);
-app.directive("ripple", Ripple);
+app.directive("ripple", Ripple as Directive);
 app.use(router);
-app.use(ToastService);
+app.use(ToastService as any);
+// @ts-ignore
 app.use(PrimeVue, {
   ripple: true,
   unstyled: false,
   pt: Tailwind,
   ptOptions: { mergeProps: true },
-});
+} as any);
 
 app.component("ButtonComponent", Button);
 app.component("BaseInput", BaseInput);

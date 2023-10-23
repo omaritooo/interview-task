@@ -51,15 +51,19 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
-router.beforeEach(async (to, from, next): Promise<void> => {
+router.beforeEach(async (to): Promise<boolean | { path: string }> => {
   const store = await useAuthStore();
 
   if (to.meta.requiresAuth && !store.isLogged) {
-    next("/login");
+    return {
+      path: "/login",
+    };
   } else if (to.name == "Login" && store.isLogged) {
-    next("/");
+    return {
+      path: "/",
+    };
   } else {
-    next();
+    return true;
   }
 });
 
@@ -68,7 +72,7 @@ router.beforeResolve(async (to) => {
     const { id } = to.params;
     const store = await useProductsStore();
     const { fetchProduct } = store;
-    await fetchProduct(id);
+    await fetchProduct(id as string);
   }
   if (to.name === "Products") {
     const store = await useProductsStore();
@@ -80,7 +84,7 @@ router.beforeResolve(async (to) => {
 
     const store = await useProductsStore();
     const { fetchProducts } = store;
-    await fetchProducts(5, "desc", name);
+    await fetchProducts(5, "desc", name as string);
   }
 });
 export default router;

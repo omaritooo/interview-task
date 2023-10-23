@@ -5,13 +5,13 @@
     <BaseInput
       v-model="user.username"
       validator="username"
-      :error="errors || []"
+      :error="errors"
       label="Username"
     />
     <BaseInput
       v-model="user.password"
       validator="password"
-      :error="errors || []"
+      :error="errors"
       label="Password"
       type="password"
     />
@@ -28,7 +28,6 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import BaseInput from "../Base/BaseInput.vue";
 import { z } from "zod";
 import { loginSchema, loginSchemaType } from "./schema.ts";
 import { useAuthStore } from "../../stores/auth.ts";
@@ -39,7 +38,7 @@ const { loginValidation } = store;
 const user = reactive({ username: "", password: "" });
 const errors = ref<z.ZodFormattedError<loginSchemaType> | null>(null);
 
-const credError = ref<String>("");
+const credError = ref<string | undefined>("");
 
 const login = async () => {
   try {
@@ -48,10 +47,10 @@ const login = async () => {
       errors.value = valid.error.format();
     } else {
       errors.value = null;
-      credError.value = loginValidation(user);
+      credError.value = await loginValidation(user);
     }
   } catch (err) {
-    throw new err();
+    throw new Error("Error");
   }
 };
 </script>
