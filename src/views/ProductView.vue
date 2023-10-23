@@ -1,6 +1,6 @@
 <template>
   <section class="overflow-hidden text-white body-font bg-site" v-if="!loading">
-    <div class="container px-5 py-24 mx-auto">
+    <div class="container px-5 py-24 mx-auto" v-if="product">
       <div class="flex flex-wrap mx-auto lg:w-4/5">
         <img
           :alt="product.title"

@@ -73,7 +73,7 @@ watch(selectedLimit, async (newVal) => {
 
 watch(sortProducts, async (newVal) => {
   try {
-    fetchProducts(selectedLimit.value, newVal);
+    fetchProducts(Number(selectedLimit.value), newVal);
   } catch (err) {
     throw new err();
   }

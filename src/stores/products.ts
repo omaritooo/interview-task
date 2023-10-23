@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { Product } from "../typing/index.ts";
 
-type newProduct = Omit<Product, "id", "rating">;
+type newProduct = Omit<Product, "id" | "rating">;
 
 export const useProductsStore = defineStore("Products", () => {
   const products = ref<Product[]>([]);
@@ -26,7 +26,7 @@ export const useProductsStore = defineStore("Products", () => {
       const request = await fetch(url).then((res) => res.json());
       products.value = request;
     } catch (err) {
-      error.value = err;
+      error.value = err as Error;
     } finally {
       loading.value = false;
     }
@@ -42,7 +42,7 @@ export const useProductsStore = defineStore("Products", () => {
 
       product.value = request;
     } catch (err) {
-      error.value = err;
+      error.value = err as Error;
     } finally {
       loading.value = false;
     }
@@ -59,7 +59,7 @@ export const useProductsStore = defineStore("Products", () => {
       ).then((res) => res.json());
       return response;
     } catch (err) {
-      error.value = err;
+      error.value = err as Error;
     } finally {
       loading.value = false;
     }
@@ -76,7 +76,7 @@ export const useProductsStore = defineStore("Products", () => {
       ).then((res) => res.json());
       return response;
     } catch (err) {
-      error.value = err;
+      error.value = err as Error;
     } finally {
       loading.value = false;
     }
@@ -94,7 +94,7 @@ export const useProductsStore = defineStore("Products", () => {
 
       return response;
     } catch (err) {
-      error.value = err;
+      error.value = err as Error;
     } finally {
       loading.value = false;
     }

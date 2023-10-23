@@ -19,7 +19,7 @@ export const useAuthStore = defineStore("auth", () => {
   const logout = () => {
     isLogged.value = false;
     localStorage.removeItem("logged");
-    router.go("/login");
+    router.push("/login");
   };
   return { isLogged, loginValidation, logout };
 });

@@ -1,9 +1,4 @@
-<script setup lang="ts">
-// import TheSidebar from "./components/TheSidebar.vue";
-const root = document.getElementsByTagName("html")[0];
-
-root.classList.add("dark");
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <router-view />
