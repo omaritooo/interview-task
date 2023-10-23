@@ -4,7 +4,7 @@ interface IRating {
 }
 
 export interface Product {
-  id: number;
+  id?: number;
   title: string;
   price: number;
   category: string;

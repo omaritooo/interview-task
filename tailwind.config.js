@@ -5,6 +5,8 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
     "./node_modules/primevue/**/*.{vue,js,ts,jsx,tsx}",
   ],
+  darkMode: "media",
+
   theme: {
     extend: {
       screens: {
@@ -28,6 +30,9 @@ export default {
           lp: "1300px",
           "2xl": "1536px",
         },
+      },
+      colors: {
+        site: "#101827",
       },
     },
   },

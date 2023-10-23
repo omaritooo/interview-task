@@ -18,7 +18,7 @@
     <span v-show="credError" class="py-2 text-sm text-red-300">
       {{ credError }}
     </span>
-    <Button
+    <ButtonComponent
       label="Login"
       class="px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg w-fit"
       @click="login"
@@ -28,7 +28,6 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import Button from "primevue/button";
 import BaseInput from "../Base/BaseInput.vue";
 import { z } from "zod";
 import { loginSchema, loginSchemaType } from "./schema.ts";

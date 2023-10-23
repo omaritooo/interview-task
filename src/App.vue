@@ -1,5 +1,8 @@
 <script setup lang="ts">
 // import TheSidebar from "./components/TheSidebar.vue";
+const root = document.getElementsByTagName("html")[0];
+
+root.classList.add("dark");
 </script>
 
 <template>

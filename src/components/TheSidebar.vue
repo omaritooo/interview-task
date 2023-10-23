@@ -8,10 +8,10 @@
       position="left"
       class="w-full h-screen px-2 py-6 text-black bg-white shadow-md sm:w-1/6 sm:px-4"
     >
-      <h2 class="mt-10">Sidebar</h2>
+      <router-link to="/"> Home </router-link>
     </Sidebar>
     <Transition>
-      <Button
+      <ButtonComponent
         v-if="!visible"
         class="p-4 bg-green-300 rounded-md h-fit"
         icon="pi pi-arrow-right"
@@ -22,10 +22,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Sidebar from "primevue/sidebar";
-import Button from "primevue/button";
+import { RouterLink } from "vue-router";
 const visible = ref(false);
 </script>
-<style scoped>
+<style>
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s ease;
