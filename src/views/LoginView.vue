@@ -1,6 +1,6 @@
 <template>
   <main
-    class="container flex items-center justify-center w-screen min-h-screen px-2 text-black"
+    class="flex items-center justify-center w-screen min-h-screen px-2 text-black bg-site"
   >
     <LoginForm />
   </main>

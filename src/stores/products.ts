@@ -10,13 +10,20 @@ export const useProductsStore = defineStore("Products", () => {
   const loading = ref<Boolean>(false);
   const error = ref<Error | null>();
 
-  const fetchProducts = async (limit = 5, sort = "desc") => {
+  const fetchProducts = async (limit = 5, sort = "desc", category = "") => {
+    let url = `${import.meta.env.VITE_BASE_URL}products`;
+    let limits = `?limit=${limit}&sort=${sort}`;
+
+    if (category) {
+      url = url + "/category/" + category + limits;
+    } else {
+      url = url + limits;
+    }
+
     try {
       products.value = [];
       loading.value = true;
-      const request = await fetch(
-        `${import.meta.env.VITE_BASE_URL}products?limit=${limit}&sort=${sort}`
-      ).then((res) => res.json());
+      const request = await fetch(url).then((res) => res.json());
       products.value = request;
     } catch (err) {
       error.value = err;
@@ -24,6 +31,7 @@ export const useProductsStore = defineStore("Products", () => {
       loading.value = false;
     }
   };
+
   const fetchProduct = async (id: string) => {
     try {
       product.value = null;

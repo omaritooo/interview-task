@@ -6,9 +6,41 @@
     <Sidebar
       v-model:visible="visible"
       position="left"
-      class="w-full h-screen px-2 py-6 text-black bg-white shadow-md sm:w-1/6 sm:px-4"
+      class="flex flex-col justify-between w-full h-screen px-2 py-6 text-black bg-white shadow-md sm:w-1/6 sm:px-4"
     >
-      <router-link to="/"> Home </router-link>
+      <template #container>
+        <div class="flex flex-col h-screen px-5 py-10">
+          <router-link to="/"> Home </router-link>
+          <Menu class="mt-5" :style="{ marginTop: '20px' }" :model="items">
+            <template #item="{ label, item, props }">
+              <router-link
+                v-if="item.route"
+                v-slot="routerProps"
+                :to="item.route"
+                custom
+              >
+                <a
+                  :href="routerProps.href"
+                  v-bind="props.action"
+                  @click="routerProps.navigate"
+                >
+                  <span v-bind="props.icon" />
+                  <span v-bind="props.label">{{ label }}</span>
+                </a>
+              </router-link>
+              <a v-else :href="item.url" v-bind="props.action">
+                <span v-bind="props.icon" />
+                <span v-bind="props.label">{{ label }}</span>
+              </a>
+            </template>
+          </Menu>
+          <ButtonComponent
+            class="mt-auto w-fit"
+            @click="logoutFunction"
+            label="Logout"
+          />
+        </div>
+      </template>
     </Sidebar>
     <Transition>
       <ButtonComponent
@@ -22,8 +54,46 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Sidebar from "primevue/sidebar";
+import Menu from "primevue/menu";
 import { RouterLink } from "vue-router";
+import { useAuthStore } from "../stores/auth.ts";
+
+const { logout } = useAuthStore();
+
+const logoutFunction = () => {
+  logout();
+  location.reload();
+};
+
 const visible = ref(false);
+
+const items = ref([
+  {
+    label: "Categories",
+    items: [
+      {
+        label: "Electronics",
+        route: "/category/electronics",
+        target: "_blank",
+      },
+      {
+        label: "Jewelery",
+        route: "/category/jewelery",
+        target: "_blank",
+      },
+      {
+        label: "Men's Clothing",
+        route: "/category/men's clothing",
+        target: "_blank",
+      },
+      {
+        label: "Women's Clothing",
+        route: "/category/women's clothing",
+        target: "_blank",
+      },
+    ],
+  },
+]);
 </script>
 <style>
 .v-enter-active,

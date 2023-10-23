@@ -1,6 +1,6 @@
 <template>
   <form
-    class="flex flex-col items-center w-full px-4 py-6 bg-white rounded-lg shadow-lg sm:w-1/2 xl:w-1/4 sm:px-12 md:py-20 gap-y-3 h-fit"
+    class="flex flex-col items-center w-full px-4 py-6 bg-[#162747] rounded-lg shadow-lg sm:w-1/2 xl:w-1/4 sm:px-12 md:py-20 gap-y-3 h-fit"
   >
     <BaseInput
       v-model="user.username"

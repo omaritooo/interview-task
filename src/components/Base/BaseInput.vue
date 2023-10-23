@@ -8,6 +8,7 @@
       :id="props.label"
       class="flex-1 w-full px-4 py-2 bg-gray-100 rounded-md shadow-sm focus:outline-none"
       :class="errorStack ? 'ring-1 ring-red-500  ' : ''"
+      :style="{ backgroundColor: 'white' }"
       :type="props.type"
       :value="props.modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
@@ -22,12 +23,10 @@
 import { PropType, computed, defineAsyncComponent, shallowRef } from "vue";
 import { loginSchemaType } from "../Login/schema.ts";
 const InputText = defineAsyncComponent(() => import("primevue/inputtext"));
-
-const Password = defineAsyncComponent(() => import("primevue/password"));
 const TextField = defineAsyncComponent(() => import("primevue/textarea"));
 
 const inputComponents = {
-  password: Password,
+  password: InputText,
   text: InputText,
   number: InputText,
   textfield: TextField,

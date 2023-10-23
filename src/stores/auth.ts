@@ -1,11 +1,10 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-
 export const useAuthStore = defineStore("auth", () => {
-  // const isLogged = ref(localStorage.getItem("logged") || false);
-  const isLogged = ref(localStorage.getItem("logged") || false);
   const router = useRouter();
+  const isLogged = ref(localStorage.getItem("logged") || false);
+
   const loginValidation = (payload) => {
     if (payload.username !== "testuser1") {
       return "Incorrect username";
@@ -15,11 +14,12 @@ export const useAuthStore = defineStore("auth", () => {
     }
     isLogged.value = true;
     localStorage.setItem("logged", true);
-    router.push({ name: "Home" });
+    router.push("/");
   };
   const logout = () => {
     isLogged.value = false;
-    localStorage.setItem("logged", false);
+    localStorage.removeItem("logged");
+    router.go("/login");
   };
   return { isLogged, loginValidation, logout };
 });

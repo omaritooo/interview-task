@@ -5,6 +5,8 @@ import { useAuthStore } from "../stores/auth.ts";
 import { useProductsStore } from "../stores/products.ts";
 import HomeView from "../views/HomeView.vue";
 import ProductView from "../views/ProductView.vue";
+import CategoryView from "../views/CategoryView.vue";
+import ErrorView from "../views/ErrorView.vue";
 const routes = [
   {
     path: "/",
@@ -22,6 +24,18 @@ const routes = [
         name: "Product",
         component: ProductView,
         meta: { requiresAuth: true },
+      },
+      {
+        path: "/category/:name",
+        name: "Category",
+        component: CategoryView,
+        meta: { requiredAuth: true },
+      },
+      {
+        path: "/:pathMatch(.*)*",
+        name: "Error",
+        component: ErrorView,
+        meta: { requiredAuth: true },
       },
     ],
   },
@@ -55,6 +69,18 @@ router.beforeResolve(async (to) => {
     const store = await useProductsStore();
     const { fetchProduct } = store;
     await fetchProduct(id);
+  }
+  if (to.name === "Products") {
+    const store = await useProductsStore();
+    const { fetchProducts } = store;
+    await fetchProducts();
+  }
+  if (to.name === "Category") {
+    const { name } = to.params;
+
+    const store = await useProductsStore();
+    const { fetchProducts } = store;
+    await fetchProducts(5, "desc", name);
   }
 });
 export default router;
